@@ -9,6 +9,14 @@ counts the provided file.
 
     ruby count.rb source.csv
 
+#### pick.rb ####
+
+creates a new csv file picking the provided fields.
+
+    ruby pick.rb source.csv target.csv email first_name phone_mobile
+
+will ignore unmatched columns.
+
 #### split.rb ####
 
 splits the provided csv file into desired number of files. arguments are source
