@@ -11,30 +11,35 @@ numseg = ARGV[2].to_i if ARGV.length > 2
 header = 1
 header = ARGV[3].to_i if ARGV.length > 3
 
-puts "Reading file: #{source}"
+begin
+  puts "Reading file: #{source}"
 
-csv = CSV.read source
+  csv = CSV.read source
 
-hdrline = csv.shift if header == 1
+  hdrline = csv.shift if header == 1
 
-csvlen = csv.length
+  csvlen = csv.length
 
-puts "File read."
+  puts "File read."
 
-seglen = (csvlen / numseg) + 1
+  seglen = (csvlen / numseg) + 1
 
-curline = 0
+  curline = 0
 
-numseg.times do |i|
-  file = target[0]+"_"+i.to_s+'.'+target[1..-1].join(".")
-  puts "Writing to #{file}..."
-  CSV.open(file,"wb") do |output|
-    output << hdrline if header == 1
-    seglen.times do
-      output << csv[curline].map{|x| x.gsub('"','').strip if x } if curline < csvlen
-      curline += 1
+  numseg.times do |i|
+    file = target[0]+"_"+i.to_s+'.'+target[1..-1].join(".")
+    puts "Writing to #{file}..."
+    CSV.open(file,"wb") do |output|
+      output << hdrline if header == 1
+      seglen.times do
+        output << csv[curline].map{|x| x.gsub('"','').strip if x } if curline < csvlen
+        curline += 1
+      end
     end
   end
-end
 
-puts "Operation completed!"
+  puts "Operation completed!"
+rescue 
+  puts "Invalid arguments. Usage:"
+  puts "  $ ruby split.rb source.csv target.csv 12"
+end

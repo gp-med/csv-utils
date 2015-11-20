@@ -5,12 +5,17 @@ source = ARGV[0]
 header = 1
 header = ARGV[1].to_i if ARGV.length > 1
 
-puts "Reading file: #{source}"
+begin
+  puts "Reading file: #{source}"
 
-csv = File.readlines source
+  csv = File.readlines source
 
-hdrline = csv.shift if header == 1
+  hdrline = csv.shift if header == 1
 
-csvlen = csv.length
+  csvlen = csv.length
 
-puts "File contains #{csvlen.to_s} rows except for the header."
+  puts "File contains #{csvlen.to_s} rows except for the header."
+rescue 
+  puts "Invalid arguments. Usage:"
+  puts "  $ ruby count.rb source.csv"
+end
